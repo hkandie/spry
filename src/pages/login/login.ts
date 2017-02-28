@@ -1,4 +1,4 @@
-import {Component,  OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NavController, AlertController, LoadingController, Loading} from 'ionic-angular';
 import {AuthService} from '../../providers/auth-service';
 import {RegisterPage} from '../register/register';
@@ -9,7 +9,7 @@ import {Validators, FormGroup, FormControl, FormBuilder} from '@angular/forms';
     selector: 'page-login',
     templateUrl: 'login.html'
 })
-export class LoginPage  implements OnInit{
+export class LoginPage implements OnInit {
     public myForm: FormGroup; // our form model
     loading: Loading;
     registerCredentials = {username: '', password: ''};
@@ -24,12 +24,9 @@ export class LoginPage  implements OnInit{
             username: ['', [Validators.required, Validators.minLength(6)]],
             password: ['', [Validators.required, Validators.minLength(6)]],
         });
-
-
-
     }
 
-    public login(myForm:FormGroup) {
+    public login(myForm: FormGroup) {
         this.showLoading();
         this.registerCredentials = {username: this.myForm.controls['username'].value, password: this.myForm.controls['password'].value};
         this.auth.login(this.registerCredentials).subscribe(allowed => {

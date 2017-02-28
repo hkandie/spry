@@ -3,22 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/apps/ataleeq/src/pages/list/list.html</file>
-            <file>file:/F:/apps/ataleeq/src/pages/chat/chat.html</file>
-            <file>file:/F:/apps/ataleeq/src/app/app.html</file>
-            <file>file:/F:/apps/ataleeq/src/app/app.module.ts</file>
-            <file>file:/F:/apps/ataleeq/src/app/main.ts</file>
-            <file>file:/F:/apps/ataleeq/src/pages/search/search.ts</file>
-            <file>file:/F:/apps/ataleeq/src/app/app.scss</file>
-            <file>file:/F:/apps/ataleeq/src/app/app.component.ts</file>
-            <file>file:/F:/apps/ataleeq/www/index.html</file>
-            <file>file:/F:/apps/ataleeq/src/pages/account/account.html</file>
-            <file>file:/F:/apps/ataleeq/src/pages/search/search.html</file>
-            <file>file:/F:/apps/ataleeq/src/pages/tabs/tabs.html</file>
-            <file>file:/F:/apps/ataleeq/src/pages/home/home.ts</file>
-            <file>file:/F:/apps/ataleeq/src/pages/home/home.html</file>
-            <file>file:/F:/apps/ataleeq/src/index.html</file>
-            <file>file:/F:/apps/ataleeq/src/pages/tabs/tabs.ts</file>
+            <file>file:/F:/apps/spry/.gitignore</file>
+            <file>file:/F:/apps/spry/src/app/app.component.ts</file>
+            <file>file:/F:/apps/spry/src/app/app.html</file>
+            <file>file:/F:/apps/spry/src/index.html</file>
+            <file>file:/F:/apps/spry/ionic.config.json</file>
+            <file>file:/F:/apps/spry/src/app/app.scss</file>
+            <file>file:/F:/apps/spry/config.xml</file>
+            <file>file:/F:/apps/spry/package.json</file>
+            <file>file:/F:/apps/spry/src/app/app.module.ts</file>
+            <file>file:/F:/apps/spry/www/index.html</file>
+            <file>file:/F:/apps/spry/.io-config.json</file>
         </group>
     </open-files>
 </project-private>

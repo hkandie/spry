@@ -1,9 +1,10 @@
-import {Injectable} from '@angular/core';
+import {Injectable,Inject} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import {Http, Headers, RequestOptions, Response} from '@angular/http';
 import {AlertController, LoadingController} from 'ionic-angular';
 declare var navigator: any;
+import {MY_CONFIG_TOKEN, MY_CONFIG, ApplicationConfig} from '../app/app-config';
 
 export class User {
     is_logged_in: string;
@@ -14,7 +15,7 @@ export class User {
     lastname: string;
     token: string;
     mobile: string;
-    name:string;
+    name: string;
 
     constructor(is_logged_in: string, user_id: number, username: string, email: string, firstname: string, lastname: string, token: string, mobile: string) {
         this.is_logged_in = is_logged_in;
@@ -25,17 +26,17 @@ export class User {
         this.lastname = lastname;
         this.token = token;
         this.mobile = mobile;
-        this.name=firstname+' '+lastname;
+        this.name = firstname + ' ' + lastname;
     }
 }
 
 @Injectable()
 export class AuthService {
-    url = "http://localhost/finacc/nyuba/webservice/";
+    private endPoint: string;
     currentUser: User;
     loadingPopup: any;
-    constructor(private loadingCtrl: LoadingController, public http: Http, public alertCtrl: AlertController, ) {
-
+    constructor( @Inject(MY_CONFIG_TOKEN) config: ApplicationConfig, private loadingCtrl: LoadingController, public http: Http, public alertCtrl: AlertController, ) {
+        this.endPoint = config.apiEndpoint;
 
     }
 
@@ -50,7 +51,7 @@ export class AuthService {
                 let headers = new Headers({'Content-Type': 'application/json'}); // ... Set content type to JSON
                 let options = new RequestOptions({headers: headers}); // Create a request option
                 this.loadingPopup.present();
-                this.http.post(this.url + 'login', bodyString, options)
+                this.http.post(this.endPoint + 'login', bodyString, options)
                     .subscribe(data => {
                         let records = data.json().records;
                         let access = false;
@@ -87,23 +88,23 @@ export class AuthService {
             return Observable.throw("Please insert credentials");
         } else {
             return Observable.create(observer => {
-                
+
                 this.loadingPopup = this.loadingCtrl.create({content: 'Please wait...'});
                 var bodyString = JSON.stringify(credentials);
-                
+
                 console.log(bodyString);
                 let headers = new Headers({'Content-Type': 'application/json'}); // ... Set content type to JSON
                 let options = new RequestOptions({headers: headers}); // Create a request option
                 this.loadingPopup.present();
-                this.http.post(this.url + 'register', bodyString, options)
+                this.http.post(this.endPoint + 'register', bodyString, options)
                     .subscribe(data => {
                         let records = data.json().records;
                         console.log(records);
                         let access = false;
                         if (records.created == '1') {
                             access = true;
-                        }else{
-                            let errors=records.error1;
+                        } else {
+                            let errors = records.error1;
                             this.showAlert("Please check", errors);
                         }
                         observer.next(access);
@@ -117,7 +118,7 @@ export class AuthService {
 
                     });
 
-            
+
             });
         }
     }

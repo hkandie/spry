@@ -8,7 +8,7 @@ import {Validators, FormGroup, FormControl, FormBuilder} from '@angular/forms';
     selector: 'page-register',
     templateUrl: 'register.html'
 })
-export class RegisterPage {
+export class RegisterPage implements OnInit {
     public registerForm: FormGroup; // our form model
     createSuccess = false;
     registerCredentials = {username: '', firstname: '', lastname: '', password: '',profession:''};
@@ -18,9 +18,9 @@ export class RegisterPage {
         this.registerForm = this._fb.group({
             username: ['', [Validators.required, Validators.minLength(6)]],
             password: ['', [Validators.required, Validators.minLength(6)]],
-            firstname: ['', [Validators.required, Validators.minLength(6)]],
-            lastname: ['', [Validators.required, Validators.minLength(6)]],
-            profession: ['', [Validators.required, Validators.minLength(10)]],
+            firstname: ['', [Validators.required, Validators.minLength(2)]],
+            lastname: ['', [Validators.required, Validators.minLength(2)]],
+            profession: ['', [Validators.required, Validators.minLength(2)]],
         });
     }
     public register() {

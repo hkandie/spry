@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
-
+import {AuthService} from '../../providers/auth-service';
+import {LoginPage} from '../login/login';
 import {NavController} from 'ionic-angular';
 
 @Component({
@@ -9,7 +10,7 @@ import {NavController} from 'ionic-angular';
 export class HomePage {
     displayData: {};
 
-    constructor(public navCtrl: NavController) {
+    constructor(private navCtrl: NavController, private auth: AuthService) {
         this.displayData = [
             {
                 "name": "Macbook Pro Retina 2012",
@@ -54,6 +55,11 @@ export class HomePage {
             }
             
         ];
+    }
+    public logout() {
+        this.auth.logout().subscribe(succ => {
+            this.navCtrl.setRoot(LoginPage)
+        });
     }
 
 }

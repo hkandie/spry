@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {NavController, AlertController, LoadingController, Loading} from 'ionic-angular';
 import {AuthService} from '../../providers/auth-service';
 import {RegisterPage} from '../register/register';
-import {HomePage} from '../home/home';
+import {TabsPage} from '../tabs/tabs';
 import {Validators, FormGroup, FormControl, FormBuilder} from '@angular/forms';
 
 @Component({
@@ -33,7 +33,7 @@ export class LoginPage implements OnInit {
             if (allowed) {
                 setTimeout(() => {
                     this.loading.dismiss();
-                    this.nav.setRoot(HomePage)
+                    this.nav.setRoot(TabsPage)
                 });
             } else {
                 this.showError("Access Denied");

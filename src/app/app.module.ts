@@ -10,6 +10,7 @@ import {TabsPage} from '../pages/tabs/tabs';
 import {LoginPage} from '../pages/login/login';
 import {AuthService} from '../providers/auth-service';
 import {RegisterPage} from '../pages/register/register';
+import {MY_CONFIG_TOKEN, MY_CONFIG, ApplicationConfig} from './app-config';
 
 @NgModule({
     declarations: [
@@ -22,6 +23,6 @@ import {RegisterPage} from '../pages/register/register';
     entryComponents: [
         MyApp, TabsPage, ListPage, SearchPage, HomePage, ChatPage, AccountPage,LoginPage,RegisterPage
     ],
-    providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},AuthService]
+    providers: [{ provide: MY_CONFIG_TOKEN, useValue: MY_CONFIG },{provide: ErrorHandler, useClass: IonicErrorHandler},AuthService]
 })
 export class AppModule {}

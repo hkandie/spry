@@ -3,7 +3,7 @@ import {NavController, AlertController, LoadingController, Loading} from 'ionic-
 import {AuthService} from '../../providers/auth-service';
 import {RegisterPage} from '../register/register';
 import {TabsPage} from '../tabs/tabs';
-import {Validators, FormGroup, FormControl, FormBuilder} from '@angular/forms';
+import {Validators, FormGroup, FormBuilder} from '@angular/forms';
 
 @Component({
     selector: 'page-login',

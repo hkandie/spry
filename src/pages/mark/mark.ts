@@ -19,14 +19,15 @@ export class MarkPage implements OnInit {
     contactsfound: any;
     images: Array<string>;
     contacts: any;
-    constructor(private platform: Platform,public navCtrl: NavController, public navParams: NavParams, private _fb: FormBuilder, private alertCtrl: AlertController, private loadingCtrl: LoadingController) {
+    constructor(private platform: Platform, public navCtrl: NavController, public navParams: NavParams, private _fb: FormBuilder, private alertCtrl: AlertController, private loadingCtrl: LoadingController) {
 
         this.platform.ready().then(() => {
             this.findContacts('');
+            this.loadMap();
         });
     }
     public ngOnInit() {
-        this.loadMap();
+
         this.myForm = this._fb.group({
             mark_address: ['', [Validators.required, Validators.minLength(6)]],
             mark_long: ['', [Validators.required, Validators.minLength(6)]],
@@ -39,8 +40,9 @@ export class MarkPage implements OnInit {
             mark_images: ['',],
         });
     }
-    loadMap() {
-        Geolocation.getCurrentPosition().then((position) => {
+    public loadMap() {
+        let options = {timeout: 10000, enableHighAccuracy: true};
+        Geolocation.getCurrentPosition(options).then((position) => {
             let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
             let mapOptions = {
                 center: latLng,
@@ -128,7 +130,11 @@ export class MarkPage implements OnInit {
         try {
             Contacts.find(['displayName', 'phoneNumbers']).then((contacts) => {
                 this.contactsfound = contacts;
-                alert(this.contactsfound);
+                for (let item of this.contactsfound) {
+                    if (item.phoneNumbers != null) {
+                        this.contacts.push({phoneNumber: JSON.stringify(item.phoneNumbers[0].value), displayName: item.displayName});
+                    }
+                }
             }, (err) => {
                 alert("Error:" + err);
             });

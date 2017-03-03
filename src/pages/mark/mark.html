@@ -14,73 +14,48 @@
     <form [formGroup]="myForm" novalidate (ngSubmit)="login(myForm)">
         <ion-list>
             <ion-item>
-                <ion-input
-                    placeholder="Search"
-                    type="text" (change) = "findContacts($event)"  formControlName="mark_contacts"></ion-input>
+                <ion-label   color="primary">Contacts</ion-label>
+                <ion-select  color="primary" auto-complete placeholder="Search"  formControlName="mark_contacts" multiple="true" cancelText="Cancel" okText="Done">
+                    <ion-option   *ngFor="let contact of contacts" value="{{contact.phoneNumber}}">{{contact.displayName}} - {{contact.phoneNumber}}</ion-option>
+                </ion-select>
             </ion-item>
-            <ion-list>
-                <ion-item-sliding *ngFor="let contact of allContacts">
-                    <ion-item class="bloc-contact">
-                        <h2>{{contact.displayName}}</h2>
-                        <div *ngFor="let phone of contact.phoneNumbers">
 
-                            <ion-item *ngIf="phone.type == 'mobile'" class="line">
-                                <ion-icon ios="ios-phone-portrait" md="md-phone-portrait"></ion-icon>
-                                Mobile
-                                <ion-badge teal item-right>{{phone.value}}</ion-badge>
-                            </ion-item>
-
-                            <ion-item *ngIf="phone.type == 'home'" class="line">
-                                <ion-icon ios="ios-home" md="md-home"></ion-icon>
-                                Home
-                                <ion-badge green item-right>{{phone.value}}</ion-badge>
-                            </ion-item>
-
-                        </div>
-                    </ion-item>
-                    <ion-item-options>
-
-                        <button danger (click) = "delete(contact)">
-                                <ion-icon name="trash"></ion-icon>
-                            Delete
-                        </button>
-                    </ion-item-options>
-                </ion-item-sliding>
-            </ion-list>
             <ion-item>
-                <ion-label> As Group</ion-label>
+                <ion-label   color="primary"> As Group</ion-label>
                 <ion-toggle  formControlName="mark_as_group" checked="false"  color="secondary"></ion-toggle>
             </ion-item>
             <ion-item>
-                <ion-label> Surprise</ion-label>
+                <ion-label   color="primary"> Surprise</ion-label>
                 <ion-toggle   formControlName="mark_suprise"  checked="false"  color="secondary"></ion-toggle>
             </ion-item>
             <ion-item>
-                <ion-label> Notify</ion-label>
+                <ion-label   color="primary"> Notify</ion-label>
                 <ion-toggle   formControlName="mark_notify"  checked="false"  color="secondary"></ion-toggle>
             </ion-item>
             <ion-item>
                 <ion-textarea type="textarea" formControlName="mark_message" style="border: 1px #F0F0F0 solid"></ion-textarea>
             </ion-item>
-            <ion-item>
-                <ion-grid>
-                    <ion-row>
-                        <ion-col  *ngFor="let file_uri of images">
-                            <img src="{{file_uri}}"/>
-                        </ion-col>
+            <ion-item *ngFor="let file_uri of images">
+                {{file_uri}}
 
-                        <ion-icon name="add-circle" color="primary" ios="ios-add-circle" md="md-add-circle" on-tap="openGallery()"></ion-icon>
-                    </ion-row>
-                </ion-grid>
-            </ion-item>
-            <ion-item>
-                <ion-input formControlName="mark_address" ></ion-input>
-                <input formControlName="mark_long" type="hidden"/>
-                <input formControlName="mark_lat"  type="hidden"/>
-            </ion-item>
-            <ion-item>
-                <div #map id="map" style="width: 100%;height: 300px"></div>  
-            </ion-item> 
-        </ion-list>
-    </form>
+
+
+        </ion-item>
+        <ion-item>
+            <button ion-button icon-left on-tap="openGallery()">
+                <ion-icon name="add-circle"></ion-icon>
+                Add Photos
+            </button>
+        </ion-item>
+
+        <ion-item>
+            <ion-input formControlName="mark_address" ></ion-input>
+            <input formControlName="mark_long" type="hidden"/>
+            <input formControlName="mark_lat"  type="hidden"/>
+        </ion-item>
+        <ion-item>
+            <div #map id="map" style="width: 100%;height:  100px"></div>  
+        </ion-item> 
+    </ion-list>
+</form>
 </ion-content>

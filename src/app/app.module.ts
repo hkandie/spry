@@ -20,6 +20,7 @@ import {MarkPage} from '../pages/mark/mark';
     ],
     imports: [
         IonicModule.forRoot(MyApp)
+        
     ],
     bootstrap: [IonicApp],
     entryComponents: [

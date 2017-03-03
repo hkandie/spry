@@ -3,28 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/apps/spry/src/pages/login/login.html</file>
-            <file>file:/F:/apps/spry/src/providers/phone-contacts-provider.ts</file>
-            <file>file:/F:/apps/spry/src/pages/login/login.ts</file>
-            <file>file:/F:/apps/spry/src/pages/mark/mark.scss</file>
-            <file>file:/F:/apps/spry/src/index.html</file>
-            <file>file:/F:/apps/spry/src/providers/search-service.ts</file>
-            <file>file:/F:/apps/spry/src/pages/home/home.html</file>
-            <file>file:/F:/apps/spry/src/app/app.module.ts</file>
-            <file>file:/F:/apps/spry/src/pages/mark/mark.html</file>
-            <file>file:/F:/apps/spry/src/providers/contact-picker.ts</file>
-            <file>file:/F:/apps/spry/src/pages/account/account.html</file>
-            <file>file:/F:/apps/spry/src/pages/search/search.ts</file>
-            <file>file:/F:/apps/spry/src/app/app.component.ts</file>
             <file>file:/F:/apps/spry/src/pages/mark/mark.ts</file>
-            <file>file:/F:/apps/spry/src/pages/search/search.html</file>
-            <file>file:/F:/apps/spry/src/pages/home/home.ts</file>
-            <file>file:/F:/apps/spry/src/providers/post-service.ts</file>
-            <file>file:/F:/apps/spry/src/providers/auth-service.ts</file>
-            <file>file:/F:/apps/spry/src/providers/phone-contacts.ts</file>
-            <file>file:/F:/apps/spry/config.xml</file>
-            <file>file:/F:/apps/spry/src/pages/account/account.ts</file>
-            <file>file:/F:/apps/spry/npm-debug.log</file>
+            <file>file:/F:/apps/spry/src/pages/mark/mark.html</file>
         </group>
     </open-files>
 </project-private>

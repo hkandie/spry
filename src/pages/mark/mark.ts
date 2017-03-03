@@ -1,8 +1,8 @@
 import {Component, ViewChild, ElementRef, OnInit} from '@angular/core';
-import {NavController, Modal, NavParams, AlertController, LoadingController, Loading} from 'ionic-angular';
+import {NavController, Platform, NavParams, AlertController, LoadingController} from 'ionic-angular';
 import {Geolocation} from 'ionic-native';
-import {Validators, FormGroup, FormControl, FormBuilder} from '@angular/forms';
-import {Contacts, Contact, ContactField} from 'ionic-native';
+import {Validators, FormGroup, FormBuilder} from '@angular/forms';
+import {Contacts} from 'ionic-native';
 import {ImagePicker} from 'ionic-native';
 declare var google;
 declare var navigator;
@@ -18,12 +18,12 @@ export class MarkPage implements OnInit {
     map: any;
     contactsfound: any;
     images: Array<string>;
-    private customColor: string[] = ["#f44336", "#3f51b5", "#2196f3", "#009688", "#4caf50"];
-    private indexColor: number = 0;
-    public allContacts: Contact[];
-    public searchedContact: string;
-    constructor(public navCtrl: NavController, public navParams: NavParams, private _fb: FormBuilder, private alertCtrl: AlertController, private loadingCtrl: LoadingController) {
-        this.findContacts('');
+    contacts: any;
+    constructor(private platform: Platform,public navCtrl: NavController, public navParams: NavParams, private _fb: FormBuilder, private alertCtrl: AlertController, private loadingCtrl: LoadingController) {
+
+        this.platform.ready().then(() => {
+            this.findContacts('');
+        });
     }
     public ngOnInit() {
         this.loadMap();
@@ -34,8 +34,8 @@ export class MarkPage implements OnInit {
             mark_contacts: ['', [Validators.required,]],
             mark_message: ['', [Validators.required, Validators.minLength(6)]],
             mark_as_group: ['false', [Validators.required,]],
-            mark_suprise: ['', [Validators.required,]],
-            mark_notify: ['', [Validators.required,]],
+            mark_suprise: ['true', [Validators.required,]],
+            mark_notify: ['true', [Validators.required,]],
             mark_images: ['',],
         });
     }
@@ -52,7 +52,7 @@ export class MarkPage implements OnInit {
 
             this.myForm.controls['mark_long'].setValue(position.coords.latitude);
             this.myForm.controls['mark_lat'].setValue(position.coords.longitude);
-            this.getMarkAddress(position.coords.latitude, position.coords.longitude,this.myForm);
+            this.getMarkAddress(position.coords.latitude, position.coords.longitude, this.myForm);
             this.addMarker();
 
 
@@ -84,7 +84,7 @@ export class MarkPage implements OnInit {
         this.addInfoWindow(marker, content);
 
     }
-    public getMarkAddress(latitude, longitude,form) {
+    public getMarkAddress(latitude, longitude, form) {
         var geocoder;
         geocoder = new google.maps.Geocoder();
         var latlng = new google.maps.LatLng(latitude, longitude);
@@ -104,15 +104,37 @@ export class MarkPage implements OnInit {
             }
         );
     }
-    public findContacts(value: any) {
-        let fn = value === undefined ? '' : value;
+    public onSuccess(contacts) {
+        alert('Found ' + contacts.length + ' contacts.');
+        console.log(contacts);
+    };
 
-        Contacts.find(['displayName', 'phoneNumbers'], {
-            filter: fn,
-            hasPhoneNumber: true
-        }).then(data => {
-            this.allContacts = data;
-        });
+
+
+    public onError(contactError) {
+        alert('onError!');
+    };
+    public findContacts(value: any) {
+        this.contacts = [{phoneNumber: "bacon", displayName: "071 Bacon"},
+        {phoneNumber: "olives", displayName: "Black Olives"},
+        {phoneNumber: "xcheese", displayName: "Extra Cheese"},
+        {phoneNumber: "peppers", displayName: "Green Peppers"},
+        {phoneNumber: "mushrooms", displayName: "Mushrooms"},
+        {phoneNumber: "onions", displayName: "Onions"},
+        {phoneNumber: "pepperoni", displayName: "Pepperoni"},
+        {phoneNumber: "pineapple", displayName: "Pineapple"},
+        {phoneNumber: "sausage", displayName: "Sausage"},
+        {phoneNumber: "Spinach", displayName: "Spinach"}];
+        try {
+            Contacts.find(['displayName', 'phoneNumbers']).then((contacts) => {
+                this.contactsfound = contacts;
+                alert(this.contactsfound);
+            }, (err) => {
+                alert("Error:" + err);
+            });
+        } catch (e) {
+            alert("Error:" + e);
+        }
     }
 
 
@@ -126,18 +148,25 @@ export class MarkPage implements OnInit {
         }
 
         ImagePicker.getPictures(options).then((results) => {
-
             for (var i = 0; i < results.length; i++) {
                 this.images.push(results[i]);
                 console.log('Image URI: ' + results[i]);
             }
-        }, (err) => {});
+        }, (err) => {
+            alert("Error:" + err);
+        });
     }
     public login(myForm: FormGroup) {
+
         console.log(this.myForm.controls['mark_address'].value);
         console.log(this.myForm.controls['mark_long'].value);
-        console.log(this.myForm.controls['mark_contacts'].value)
         console.log(this.myForm.controls['mark_lat'].value);
+        console.log(this.myForm.controls['mark_contacts'].value);
+        console.log(this.myForm.controls['mark_message'].value);
+        console.log(this.myForm.controls['mark_as_group'].value);
+        console.log(this.myForm.controls['mark_suprise'].value);
+        console.log(this.myForm.controls['mark_notify'].value);
+        console.log(this.myForm.controls['mark_images'].value);
     }
 
 

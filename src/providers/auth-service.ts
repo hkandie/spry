@@ -1,4 +1,4 @@
-import {Injectable,Inject} from '@angular/core';
+import {Injectable, Inject} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import {Http, Headers, RequestOptions, Response} from '@angular/http';
@@ -59,6 +59,7 @@ export class AuthService {
                             access = true;
                             this.currentUser = new User(records.is_logged_in, records.user_id, records.username, records.email, records.firstname, records.lastname,
                                 records.token, records.mobile);
+                            this.fetch_avatar(records.user_id);
                         }
                         observer.next(access);
                         observer.complete();
@@ -82,7 +83,44 @@ export class AuthService {
             return;
         }
     }
+    public fetch_avatar(id: any) {
+        if (id === null) {
+            return;;
+        } else {
+            return Observable.create(observer => {
 
+                this.loadingPopup = this.loadingCtrl.create({content: 'Please wait...'});
+                var bodyString = JSON.stringify({"id": id});
+
+                console.log(bodyString);
+                let headers = new Headers({'Content-Type': 'application/json'}); // ... Set content type to JSON
+                let options = new RequestOptions({headers: headers}); // Create a request option
+                this.http.post(this.endPoint + 'register', bodyString, options)
+                    .subscribe(data => {
+                        let records = data.json().records;
+                        console.log(records);
+                        let access = false;
+                        if (records.created == '1') {
+                            access = true;
+                        } else {
+                            let errors = records.error1;
+                            this.showAlert("Please check", errors);
+                        }
+                        observer.next(access);
+                        observer.complete();
+                        this.loadingPopup.dismiss();
+                    }, error => {
+                        observer.next(false);
+                        observer.complete();
+                        this.loadingPopup.dismiss();
+                        this.showAlert("Please check", "There is a problem.");
+
+                    });
+
+
+            });
+        }
+    }
     public register(credentials) {
         if (credentials.email === null || credentials.password === null) {
             return Observable.throw("Please insert credentials");

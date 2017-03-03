@@ -1,22 +1,19 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-
-/*
-  Generated class for the Account page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
+import {Component} from '@angular/core';
+import {NavController, NavParams} from 'ionic-angular';
+import {AuthService} from '../../providers/auth-service';
 @Component({
-  selector: 'page-account',
-  templateUrl: 'account.html'
+    selector: 'page-account',
+    templateUrl: 'account.html'
 })
 export class AccountPage {
+    name:string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+    constructor(public navCtrl: NavController, private auth: AuthService) {
+        let info = this.auth.getUserInfo();
+        let name = info.firstname + ' ' + info.lastname;
+        console.log(info);
+    }
+    
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AccountPage');
-  }
 
 }

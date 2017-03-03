@@ -14,7 +14,13 @@ export class LoginPage implements OnInit {
     loading: Loading;
     registerCredentials = {username: '', password: ''};
 
-    constructor(private nav: NavController, private auth: AuthService, private alertCtrl: AlertController, private loadingCtrl: LoadingController, private _fb: FormBuilder) {}
+    constructor(private nav: NavController, private auth: AuthService, private alertCtrl: AlertController, private loadingCtrl: LoadingController, private _fb: FormBuilder) {
+        let info = this.auth.getUserInfo();
+        console.log(info);
+        if (info){
+           this.nav.setRoot(TabsPage)
+        }
+    }
 
     public createAccount() {
         this.nav.push(RegisterPage);

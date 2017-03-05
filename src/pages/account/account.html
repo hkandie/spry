@@ -3,27 +3,18 @@
         <ion-title>
             Account
         </ion-title>
-        <ion-buttons end>
-            <button ion-button (click)="logout()">
-                    <ion-icon name="log-out"></ion-icon>
-            </button>
-        </ion-buttons>
+
     </ion-navbar>
 </ion-header>
 
 <ion-content class="home" padding>
-    <h3>Welcome inside, {{name}}!</h3>
-    Your Email is: {{email}}
     <ion-card>
-        <ion-card-header class="">
-            News
-        </ion-card-header>
-        <ion-card-content>
-            <!-- Add card content here! -->
-        </ion-card-content>
-
+        <ion-item>
+            <ion-icon name="contacts" item-left large></ion-icon>
+            <h2>{{name}}</h2>
+            <p>{{proffession}}</p>
+            <ion-icon name="create" color="primary" item-right large></ion-icon>
+        </ion-item>
     </ion-card>
-    <ion-card>
 
-    </ion-card>
 </ion-content>

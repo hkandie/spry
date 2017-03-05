@@ -21,10 +21,12 @@ export class TabsPage {
     tab5Root: any = AccountPage;
 
     constructor(private nav: NavController, private auth: AuthService, ) {
-        let info = this.auth.getUserInfo();
-        if (null==info){
-           this.nav.setRoot(LoginPage)
-        }
+        this.auth.getUserInfo().subscribe(succ => {
+            if (null == succ) {
+                this.nav.setRoot(LoginPage)
+            }
+        });
+
 
     }
 }

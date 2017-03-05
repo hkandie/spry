@@ -4,6 +4,7 @@ import {Geolocation} from 'ionic-native';
 import {Validators, FormGroup, FormBuilder} from '@angular/forms';
 import {Contacts} from 'ionic-native';
 import {ImagePicker} from 'ionic-native';
+import {TabsPage} from '../tabs/tabs';
 declare var google;
 declare var navigator;
 
@@ -25,6 +26,9 @@ export class MarkPage implements OnInit {
             this.findContacts('');
             this.loadMap();
         });
+    }
+    public goBack() {
+        this.navCtrl.setRoot(TabsPage);
     }
     public ngOnInit() {
 
@@ -117,10 +121,10 @@ export class MarkPage implements OnInit {
         alert('onError!');
     };
     public findContacts(value: any) {
-        this.contacts = [{phoneNumber: "bacon", displayName: "071 Bacon"},
-        {phoneNumber: "olives", displayName: "Black Olives"},
-        {phoneNumber: "xcheese", displayName: "Extra Cheese"},
-        {phoneNumber: "peppers", displayName: "Green Peppers"},
+        this.contacts = [{phoneNumber: "0721", displayName: "072x Bacon"},
+        {phoneNumber: "0722", displayName: "Black Olives"},
+        {phoneNumber: "0723", displayName: "Extra Cheese"},
+        {phoneNumber: "0724", displayName: "Green Peppers"},
         {phoneNumber: "mushrooms", displayName: "Mushrooms"},
         {phoneNumber: "onions", displayName: "Onions"},
         {phoneNumber: "pepperoni", displayName: "Pepperoni"},
@@ -136,7 +140,7 @@ export class MarkPage implements OnInit {
                     }
                 }
             }, (err) => {
-                alert("Error:" + err);
+                //alert("Error:" + err);
             });
         } catch (e) {
             alert("Error:" + e);

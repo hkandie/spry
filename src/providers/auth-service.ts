@@ -18,8 +18,9 @@ export class User {
     token: string;
     mobile: string;
     name: string;
+    title: string;
 
-    constructor(is_logged_in: string, user_id: number, username: string, email: string, firstname: string, lastname: string, token: string, mobile: string) {
+    constructor(is_logged_in: string, user_id: number, username: string, email: string, firstname: string, lastname: string, token: string, mobile: string, title: string) {
         this.is_logged_in = is_logged_in;
         this.user_id = user_id;
         this.username = username;
@@ -27,6 +28,7 @@ export class User {
         this.firstname = firstname;
         this.lastname = lastname;
         this.token = token;
+        this.title = title;
         this.mobile = mobile;
         this.name = firstname + ' ' + lastname;
     }
@@ -60,7 +62,7 @@ export class AuthService {
                         if (records.is_logged_in == '1') {
                             access = true;
                             this.currentUser = new User(records.is_logged_in, records.user_id, records.username, records.email, records.firstname, records.lastname,
-                                records.token, records.mobile);
+                                records.token, records.mobile, records.title);
                             this.fetch_avatar(records.user_id);
                             this.storage.set('currentUser', this.currentUser);
 
@@ -162,9 +164,15 @@ export class AuthService {
     }
 
     public getUserInfo(): any {
-        return this.storage.get('currentUser').then((records) => {
-            console.log((records.username));
-            return  records;
+        return Observable.create(observer => {
+            this.storage.get('currentUser').then((data) => {
+                if (data != null) {
+                    observer.next(data);
+                } else {
+                    observer.next(null);
+                }
+                observer.complete();
+            });
 
         });
     }
@@ -172,6 +180,7 @@ export class AuthService {
     public logout() {
         return Observable.create(observer => {
             this.currentUser = null;
+            this.storage.set('currentUser', this.currentUser);
             observer.next(true);
             observer.complete();
         });

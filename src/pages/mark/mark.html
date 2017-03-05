@@ -1,14 +1,19 @@
 <ion-header>
-
-    <ion-navbar>
-        <ion-title>Mark a Person</ion-title>
+    <ion-navbar color="blue">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>
+            Mark a Person
+        </ion-title>
         <ion-buttons end>
             <button ion-button (click)="login(myForm)" color="primary"   type="submit">Done</button>
+            <button ion-button (click)="goBack()" royal>
+                    <ion-icon name="arrow-round-back"></ion-icon>
+            </button>            
         </ion-buttons> 
     </ion-navbar>
-
 </ion-header>
-
 
 <ion-content>
     <form [formGroup]="myForm" novalidate (ngSubmit)="login(myForm)">
@@ -54,8 +59,8 @@
             <input formControlName="mark_lat"  type="hidden"/>
         </ion-item>
         <ion-item>
-            
-            <div #map id="map"></div>  
+
+            <div #map id="map" style="widows: 100%;height: 30px;"></div>  
         </ion-item> 
     </ion-list>
 </form>

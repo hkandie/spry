@@ -15,11 +15,11 @@ export class LoginPage implements OnInit {
     registerCredentials = {username: '', password: ''};
 
     constructor(private nav: NavController, private auth: AuthService, private alertCtrl: AlertController, private loadingCtrl: LoadingController, private _fb: FormBuilder) {
-        let info = this.auth.getUserInfo();
-        console.log(info);
-        if (info){
-           this.nav.setRoot(TabsPage)
-        }
+        this.auth.getUserInfo().subscribe(succ => {
+            if (null != succ) {
+                this.nav.setRoot(TabsPage)
+            }
+        });
     }
 
     public createAccount() {
@@ -39,7 +39,7 @@ export class LoginPage implements OnInit {
             if (allowed) {
                 setTimeout(() => {
                     this.loading.dismiss();
-                    this.nav.setRoot(TabsPage)
+                    this.nav.setRoot(TabsPage);
                 });
             } else {
                 this.showError("Access Denied");

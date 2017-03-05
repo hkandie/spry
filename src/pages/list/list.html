@@ -1,10 +1,46 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>List</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>Post</ion-title>
+    </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h2>Welcome to your list!</h2>
-  
+    <ion-card>
+        <ion-item>
+            <ion-icon name="ios-bookmark" item-left large></ion-icon>
+            <h2>Marks</h2>
+            <p>31 Posted | 24 got</p>
+            <ion-icon name="redo" color="primary" item-right large></ion-icon>
+        </ion-item>
+    </ion-card>
+    <ion-card>
+        <ion-item>
+            <ion-icon name="ios-bookmark" item-left large></ion-icon>
+            <h2>Buying</h2>
+            <p>31 Listed | 24 Views</p>
+            <a    (click)="openPage(MarkPage)"  item-right >
+                    <ion-icon name="redo" color="primary" item-right large></ion-icon>
+            </a>
+
+        </ion-item>
+    </ion-card>
+
+    <ion-card>
+        <ion-item>
+            <ion-icon name="football" item-left large></ion-icon>
+            <h2>Selling</h2>
+            <p>31 Listed | 24 Views</p>
+            <ion-icon name="redo" color="primary" item-right large></ion-icon>
+        </ion-item>
+    </ion-card>
+
+    <ion-card>
+        <ion-item>
+            <ion-icon name="football" item-left large></ion-icon>
+            <h2>Views</h2>
+            <p>31 Posted | 24 got</p>
+            <ion-icon name="redo" color="secondary" item-right large></ion-icon>
+        </ion-item>
+    </ion-card>
+
 </ion-content>

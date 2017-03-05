@@ -11,9 +11,8 @@ import {NavController} from 'ionic-angular';
 export class HomePage {
     displayData: {};
 
-    constructor(private navCtrl: NavController, private auth: AuthService, private wall: PostService) {
+    constructor(private navCtrl: NavController, private auth: AuthService, private wall: PostService,) {
         let info = this.auth.getUserInfo();
-        console.log(info);
         this.displayData = this.wall.fetch_posts();
 
     }

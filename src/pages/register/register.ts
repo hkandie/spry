@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {NavController, AlertController, LoadingController, Loading} from 'ionic-angular';
+import {NavController, AlertController, } from 'ionic-angular';
 import {AuthService} from '../../providers/auth-service';
-import {HomePage} from '../home/home';
 import {Validators, FormGroup, FormControl, FormBuilder} from '@angular/forms';
 
 @Component({

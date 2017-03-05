@@ -7,7 +7,7 @@ import {TabsPage} from '../pages/tabs/tabs';
 import {BuyPage} from '../pages/buy/buy';
 import {SellPage} from '../pages/sell/sell';
 import {ViewPage} from '../pages/view/view';
-
+import {AuthService} from '../providers/auth-service';
 @Component({
     templateUrl: 'app.html'
 })
@@ -16,20 +16,24 @@ export class MyApp {
     rootPage = TabsPage;
     pages: Array<{title: string, component: any}>;
 
-    constructor(platform: Platform ) {
+    constructor(public platform: Platform,public auth: AuthService ) {
         this.pages = [
             {title: 'Mark', component: MarkPage},
             {title: 'Buy', component: BuyPage},
             {title: 'Sell', component: SellPage},
             {title: 'View', component: ViewPage},
-            {title: 'Sign Out', component: MarkPage},
         ];
         platform.ready().then(() => {
             StatusBar.styleDefault();
             Splashscreen.hide();
         });
     }
-    openPage(page) {
+    openPage(page:any) {
         this.nav.setRoot(page.component);
+    }
+    public logout() {
+        this.auth.logout().subscribe(succ => {
+            this.nav.setRoot(LoginPage)
+        });
     }
 }

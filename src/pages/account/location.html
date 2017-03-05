@@ -1,0 +1,34 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+            Location
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <form [formGroup]="myForm" novalidate (ngSubmit)="save_update_location_wise_settings(myForm)">
+        <ion-list>
+            <ion-item>
+                <ion-label   color="primary">Hide from contacts</ion-label>
+                <ion-toggle  formControlName="is_contact_hidden" checked="false"  color="secondary"></ion-toggle>
+                <small>You will go offline to all of your contacts</small>                
+            </ion-item>
+        </ion-list>
+        <ion-list formArrayName="hidden_contact_details">
+            <ion-list-header>
+                <a ion-button (click)="add_hidden_contact_details()" style="cursor: default">Add Contact +</a>
+            </ion-list-header>
+            <i *ngFor="let c of myForm.controls.hidden_contact_details.controls; let i=index">
+                <ion-item [formGroupName]="i">
+                    <contact-detail [group]="myForm.controls.voyageDetails.controls[i]"></contact-detail>
+                    <span *ngIf="myForm.controls.hidden_contact_details.controls.length > 1" 
+                        (click)="remove_hidden_contact_details(i)"> X
+                    </span>
+                </ion-item>
+            </i>
+
+        </ion-list>
+    </form>
+
+</ion-content>

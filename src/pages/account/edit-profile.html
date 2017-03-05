@@ -5,7 +5,7 @@
             <ion-icon name="menu"></ion-icon>
         </button>
         <ion-title>
-          Edit {{name}}
+            Edit {{name}}
         </ion-title>
         <ion-buttons end>
             <button ion-button (click)="closeModal()" color="primary" >Cancel</button>           
@@ -87,31 +87,21 @@
             Change Avatar
         </ion-card-header>
         <ion-card-content>
-            <form [formGroup]="passwordForm" novalidate (ngSubmit)="reset_password(passwordForm)">
-                <ion-row>
-                    <ion-col>
-                        <ion-list inset>
+            <ion-item>
+                <img src="{{pathForImage(lastImage)}}" style="width: 100%" [hidden]="lastImage === null">
+                     <h3 [hidden]="lastImage !== null">Please Select Image!</h3>
+            </ion-item>
 
-                            <ion-item>
-                                <ion-input type="password" placeholder="Current Password"  formControlName="oldpassword"></ion-input>
-                            </ion-item>
-                            <ion-item>
-                                <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
-                            </ion-item>
-                            <ion-item>
-                                <ion-input type="password" placeholder="Confirm Password" formControlName="newpassword"></ion-input>
-                            </ion-item>
-                        </ion-list>
-                    </ion-col>
-                </ion-row>
-
-                <ion-row>
-                    <ion-col class="signup-col">
-                        <button ion-button class="submit-btn" type="submit" [disabled]="!passwordForm.valid">Save Password</button>
-                    </ion-col>
-                </ion-row>
-
-            </form>
+            <ion-item>
+                 <ion-buttons>
+                        <button ion-button icon-left (click)="presentActionSheet()">
+                                <ion-icon name="camera"></ion-icon>Select Image
+                        </button>
+                        <button ion-button icon-left (click)="uploadImage()" [disabled]="lastImage === null">
+                                <ion-icon name="cloud-upload"></ion-icon>Upload
+                        </button>
+                    </ion-buttons>
+            </ion-item>
         </ion-card-content>
     </ion-card>
 </ion-content>

@@ -14,6 +14,9 @@ export class AccountPage {
 
     }
     ionViewDidLoad() {
+        this.loadProfile();
+    }
+    public loadProfile() {
         this.auth.getUserInfo().subscribe(succ => {
             let info = succ;
             this.name = info.firstname + ' ' + info.lastname;
@@ -24,8 +27,8 @@ export class AccountPage {
         let addWeatherModal = this.modalCtrl.create(Profile);
 
         addWeatherModal.present();
-        addWeatherModal.onDidDismiss(data => { //This is a listener which wil get the data passed from modal when the modal's view controller is dismissed
-            console.log("Data =>", data) //This will log the form entered by user in add modal.
+        addWeatherModal.onDidDismiss(data => { 
+            this.loadProfile();
         })
     }
 

@@ -1,8 +1,15 @@
 <ion-header>
 
-    <ion-navbar>
-        <ion-title>Edit {{name}}</ion-title>
-        <button ion-button (click)="closeModal()" item-right>Cancel</button>
+    <ion-navbar color="blue">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>
+          Edit {{name}}
+        </ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="closeModal()" color="primary" >Cancel</button>           
+        </ion-buttons> 
     </ion-navbar>
 
 </ion-header>
@@ -12,7 +19,7 @@
             Profile
         </ion-card-header>
         <ion-card-content>
-            <form [formGroup]="registerForm" novalidate (ngSubmit)="register(registerForm)">
+            <form [formGroup]="registerForm" novalidate (ngSubmit)="save_profile(registerForm)">
                 <ion-row>
                     <ion-col>
                         <ion-list inset>
@@ -48,19 +55,51 @@
             Change Password
         </ion-card-header>
         <ion-card-content>
-            <form [formGroup]="passwordForm" novalidate (ngSubmit)="save_password(passwordForm)">
+            <form [formGroup]="passwordForm" novalidate (ngSubmit)="reset_password(passwordForm)">
                 <ion-row>
                     <ion-col>
                         <ion-list inset>
 
                             <ion-item>
-                                <ion-input type="password" placeholder="Current Password"  formControlName="current"></ion-input>
+                                <ion-input type="password" placeholder="Current Password"  formControlName="oldpassword"></ion-input>
                             </ion-item>
                             <ion-item>
                                 <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
                             </ion-item>
                             <ion-item>
-                                <ion-input type="password" placeholder="Confirm" formControlName="password1"></ion-input>
+                                <ion-input type="password" placeholder="Confirm Password" formControlName="newpassword"></ion-input>
+                            </ion-item>
+                        </ion-list>
+                    </ion-col>
+                </ion-row>
+
+                <ion-row>
+                    <ion-col class="signup-col">
+                        <button ion-button class="submit-btn" type="submit" [disabled]="!passwordForm.valid">Save Password</button>
+                    </ion-col>
+                </ion-row>
+
+            </form>
+        </ion-card-content>
+    </ion-card>
+    <ion-card class="login-box">
+        <ion-card-header>
+            Change Avatar
+        </ion-card-header>
+        <ion-card-content>
+            <form [formGroup]="passwordForm" novalidate (ngSubmit)="reset_password(passwordForm)">
+                <ion-row>
+                    <ion-col>
+                        <ion-list inset>
+
+                            <ion-item>
+                                <ion-input type="password" placeholder="Current Password"  formControlName="oldpassword"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                                <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                                <ion-input type="password" placeholder="Confirm Password" formControlName="newpassword"></ion-input>
                             </ion-item>
                         </ion-list>
                     </ion-col>

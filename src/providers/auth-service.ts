@@ -3,8 +3,10 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import {Http, Headers, RequestOptions, Response} from '@angular/http';
 import {AlertController, LoadingController} from 'ionic-angular';
-declare var navigator: any;
 import {MY_CONFIG_TOKEN, MY_CONFIG, ApplicationConfig} from '../app/app-config';
+import {Storage} from '@ionic/storage';
+declare var navigator: any;
+
 
 export class User {
     is_logged_in: string;
@@ -35,7 +37,7 @@ export class AuthService {
     private endPoint: string;
     currentUser: User;
     loadingPopup: any;
-    constructor( @Inject(MY_CONFIG_TOKEN) config: ApplicationConfig, private loadingCtrl: LoadingController, public http: Http, public alertCtrl: AlertController, ) {
+    constructor(public storage: Storage, @Inject(MY_CONFIG_TOKEN) config: ApplicationConfig, private loadingCtrl: LoadingController, public http: Http, public alertCtrl: AlertController, ) {
         this.endPoint = config.apiEndpoint;
 
     }
@@ -60,6 +62,8 @@ export class AuthService {
                             this.currentUser = new User(records.is_logged_in, records.user_id, records.username, records.email, records.firstname, records.lastname,
                                 records.token, records.mobile);
                             this.fetch_avatar(records.user_id);
+                            this.storage.set('currentUser', this.currentUser);
+
                         }
                         observer.next(access);
                         observer.complete();
@@ -92,13 +96,11 @@ export class AuthService {
                 this.loadingPopup = this.loadingCtrl.create({content: 'Please wait...'});
                 var bodyString = JSON.stringify({"id": id});
 
-                console.log(bodyString);
                 let headers = new Headers({'Content-Type': 'application/json'}); // ... Set content type to JSON
                 let options = new RequestOptions({headers: headers}); // Create a request option
                 this.http.post(this.endPoint + 'register', bodyString, options)
                     .subscribe(data => {
                         let records = data.json().records;
-                        console.log(records);
                         let access = false;
                         if (records.created == '1') {
                             access = true;
@@ -130,14 +132,12 @@ export class AuthService {
                 this.loadingPopup = this.loadingCtrl.create({content: 'Please wait...'});
                 var bodyString = JSON.stringify(credentials);
 
-                console.log(bodyString);
                 let headers = new Headers({'Content-Type': 'application/json'}); // ... Set content type to JSON
                 let options = new RequestOptions({headers: headers}); // Create a request option
                 this.loadingPopup.present();
                 this.http.post(this.endPoint + 'register', bodyString, options)
                     .subscribe(data => {
                         let records = data.json().records;
-                        console.log(records);
                         let access = false;
                         if (records.created == '1') {
                             access = true;
@@ -161,8 +161,12 @@ export class AuthService {
         }
     }
 
-    public getUserInfo(): User {
-        return this.currentUser;
+    public getUserInfo(): any {
+        return this.storage.get('currentUser').then((records) => {
+            console.log((records.username));
+            return  records;
+
+        });
     }
 
     public logout() {

@@ -161,6 +161,48 @@ export class AuthService {
 
             });
         }
+    } 
+    public edit_profile(credentials) {
+        if (credentials.username === null || credentials.firstname === null) {
+            return Observable.throw("Please insert credentials");
+        } else {
+            return Observable.create(observer => {
+
+                this.loadingPopup = this.loadingCtrl.create({content: 'Please wait...'});
+                var bodyString = JSON.stringify(credentials);
+                console.log(bodyString);
+
+                let headers = new Headers({'Content-Type': 'application/json'}); // ... Set content type to JSON
+                let options = new RequestOptions({headers: headers}); // Create a request option
+                this.loadingPopup.present();
+                this.http.post(this.endPoint + 'edit-user-profile', bodyString, options)
+                    .subscribe(data => {
+                        let records = data.json().records;
+                        this.currentUser = new User(records.is_logged_in, records.user_id, records.username, records.email, records.firstname, records.lastname,
+                            records.token, records.mobile, records.title);
+                        this.fetch_avatar(records.user_id);
+                        this.storage.set('currentUser', this.currentUser);
+                        let access = false;
+                        if (records.created == '1') {
+                            access = true;
+                        } else {
+                            let errors = records.error1;
+                            this.showAlert("Please check", errors);
+                        }
+                        observer.next(access);
+                        observer.complete();
+                        this.loadingPopup.dismiss();
+                    }, error => {
+                        observer.next(false);
+                        observer.complete();
+                        this.loadingPopup.dismiss();
+                        this.showAlert("Please check", "There is a problem.");
+
+                    });
+
+
+            });
+        }
     }
 
     public getUserInfo(): any {

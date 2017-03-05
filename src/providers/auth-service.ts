@@ -36,7 +36,7 @@ export class User {
 
 @Injectable()
 export class AuthService {
-    private endPoint: string;
+    public endPoint: string;
     currentUser: User;
     loadingPopup: any;
     constructor(public storage: Storage, @Inject(MY_CONFIG_TOKEN) config: ApplicationConfig, private loadingCtrl: LoadingController, public http: Http, public alertCtrl: AlertController, ) {
@@ -243,6 +243,147 @@ export class AuthService {
         }
     }
 
+    public save_update_location_wise_settings(credentials) {
+        if (credentials.user_id === '') {
+            return Observable.throw("Error saving.");
+        } else {
+            return Observable.create(observer => {
+                this.loadingPopup = this.loadingCtrl.create({content: 'Please wait...'});
+                var bodyString = JSON.stringify(credentials);
+                console.log(bodyString);
+
+                let headers = new Headers({'Content-Type': 'application/json'}); // ... Set content type to JSON
+                let options = new RequestOptions({headers: headers}); // Create a request option
+                this.loadingPopup.present();
+                this.http.post(this.endPoint + 'save-hidden-contact-location-wise', bodyString, options)
+                    .subscribe(data => {
+                        let records = data.json().records;
+                        let access = false;
+                        if (records.success == '1') {
+                            access = true;
+                        } else {
+                            let errors = records.error1;
+                            this.showAlert("Please check", errors);
+                        }
+                        observer.next(access);
+                        observer.complete();
+                        this.loadingPopup.dismiss();
+                    }, error => {
+                        observer.next(false);
+                        observer.complete();
+                        this.loadingPopup.dismiss();
+                        this.showAlert("Please check", "There is a problem.");
+
+                    });
+
+
+            });
+        }
+    }
+    public save_secret_contacts(credentials) {
+        if (credentials.user_id === '') {
+            return Observable.throw("Error saving.");
+        } else {
+            return Observable.create(observer => {
+                this.loadingPopup = this.loadingCtrl.create({content: 'Please wait...'});
+                var bodyString = JSON.stringify(credentials);
+                console.log(bodyString);
+
+                let headers = new Headers({'Content-Type': 'application/json'}); // ... Set content type to JSON
+                let options = new RequestOptions({headers: headers}); // Create a request option
+                this.loadingPopup.present();
+                this.http.post(this.endPoint + 'save-secret-contacts', bodyString, options)
+                    .subscribe(data => {
+                        let records = data.json().records;
+                        let access = false;
+                        if (records.success == '1') {
+                            access = true;
+                        } else {
+                            let errors = records.error1;
+                            this.showAlert("Please check", errors);
+                        }
+                        observer.next(access);
+                        observer.complete();
+                        this.loadingPopup.dismiss();
+                    }, error => {
+                        observer.next(false);
+                        observer.complete();
+                        this.loadingPopup.dismiss();
+                        this.showAlert("Please check", "There is a problem.");
+
+                    });
+
+
+            });
+        }
+    }
+    public fetch_update_location_wise_settings(credentials) {
+        return Observable.create(observer => {
+            this.loadingPopup = this.loadingCtrl.create({content: 'Please wait...'});
+            var bodyString = JSON.stringify(credentials);
+            console.log(bodyString);
+
+            let headers = new Headers({'Content-Type': 'application/json'}); // ... Set content type to JSON
+            let options = new RequestOptions({headers: headers}); // Create a request option
+            this.loadingPopup.present();
+            this.http.post(this.endPoint + 'hidden-contact-location-wise', bodyString, options)
+                .subscribe(data => {
+                    let records = data.json().records;
+                    let access = false;
+                    if (records.success == '1') {
+                        access = true;
+                    } else {
+                        let errors = records.error1;
+                        this.showAlert("Please check", errors);
+                    }
+                    observer.next(records);
+                    observer.complete();
+                    this.loadingPopup.dismiss();
+                }, error => {
+                    observer.next(false);
+                    observer.complete();
+                    this.loadingPopup.dismiss();
+                    this.showAlert("Please check", "There is a problem.");
+
+                });
+
+
+        });
+    }
+    public fetch_secret_contacts(credentials) {
+        return Observable.create(observer => {
+            this.loadingPopup = this.loadingCtrl.create({content: 'Please wait...'});
+            var bodyString = JSON.stringify(credentials);
+            console.log(bodyString);
+
+            let headers = new Headers({'Content-Type': 'application/json'}); // ... Set content type to JSON
+            let options = new RequestOptions({headers: headers}); // Create a request option
+            this.loadingPopup.present();
+            this.http.post(this.endPoint + 'secret-contacts', bodyString, options)
+                .subscribe(data => {
+                    let records = data.json().records;
+                    let access = false;
+                    if (records.success == '1') {
+                        access = true;
+                    } else {
+                        let errors = records.error1;
+                        this.showAlert("Please check", errors);
+                    }
+                    observer.next(records);
+                    observer.complete();
+                    this.loadingPopup.dismiss();
+                }, error => {
+                    observer.next(false);
+                    observer.complete();
+                    this.loadingPopup.dismiss();
+                    this.showAlert("Please check", "There is a problem.");
+
+                });
+
+
+        });
+
+    }
     public getUserInfo(): any {
         return Observable.create(observer => {
             this.storage.get('currentUser').then((data) => {

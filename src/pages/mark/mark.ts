@@ -6,7 +6,6 @@ import {Contacts} from 'ionic-native';
 import {ImagePicker} from 'ionic-native';
 import {TabsPage} from '../tabs/tabs';
 declare var google;
-declare var navigator;
 
 
 @Component({

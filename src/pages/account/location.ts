@@ -6,21 +6,24 @@ import {AlertController} from 'ionic-angular';
 import {ViewChild} from '@angular/core';
 import {Content} from 'ionic-angular';
 import {AuthService} from '../../providers/auth-service';
-import {LocationContact} from './location-contacts';
+import {Contacts} from 'ionic-native';
 @Component({
     selector: 'page-location',
     templateUrl: 'location.html'
 })
-export class ReportPage implements OnInit {
+export class LocationPage implements OnInit {
     public myForm: FormGroup;
     @ViewChild(Content) content: Content;
     user_id: string;
     createSuccess = false;
-    constructor(public lc:LocationContact,public viewCtrl: ViewController, private events: Events, private toastCtrl: ToastController, public navCtrl: NavController, public alertCtrl: AlertController, public storage: Storage, private platform: Platform, private auth: AuthService, private _fb: FormBuilder) {
+    contacts: any;
+    contactsfound: any;
+    constructor(public viewCtrl: ViewController, private events: Events, private toastCtrl: ToastController, public navCtrl: NavController, public alertCtrl: AlertController, public storage: Storage, private platform: Platform, private auth: AuthService, private _fb: FormBuilder) {
         this.platform.ready().then(() => {
             this.auth.getUserInfo().subscribe(succ => {
                 let info = succ;
                 this.user_id = info.user_id;
+                this.findContacts('');
             });
         });
 
@@ -28,11 +31,9 @@ export class ReportPage implements OnInit {
     ngOnInit(): void {
         this.myForm = this._fb.group({
             is_contact_hidden: ['false',],
-            hidden_contact_details: this._fb.array([
-                this.init_hidden_contact_details()
-            ])
+            hide_me_from_contacts: ['',]
         });
-
+        this.fetch_update_location_wise_settings();
 
     }
 
@@ -55,14 +56,9 @@ export class ReportPage implements OnInit {
     }
 
     public save_update_location_wise_settings(model) {
-        var details = (this.myForm.controls['hidden_contact_details'].value);
+        var hide_me_from_contacts = (this.myForm.controls['hide_me_from_contacts'].value);
         var is_contact_hidden = (this.myForm.controls['is_contact_hidden'].value);
-        var hidden_contact_details = [];
-        for (let item of details) {
-            let voyage = {hidden_contact: item.contact, };
-            hidden_contact_details.push(voyage);
-        }
-        let credentials = {user_id: this.user_id, is_contact_hidden: is_contact_hidden, hidden_contact_details: hidden_contact_details}
+        let credentials = {user_id: this.user_id, is_contact_hidden: is_contact_hidden, hide_me_from_contacts: hide_me_from_contacts}
         this.auth.save_update_location_wise_settings(credentials).subscribe(success => {
             if (success) {
                 this.createSuccess = true;
@@ -78,22 +74,15 @@ export class ReportPage implements OnInit {
 
 
     }
-    public fetch_update_location_wise_settings(model) {
-        var details = (this.myForm.controls['hidden_contact_details'].value);
-        var is_contact_hidden = (this.myForm.controls['is_contact_hidden'].value);
-        var hidden_contact_details = [];
-        for (let item of details) {
-            let voyage = {hidden_contact: item.contact, };
-            hidden_contact_details.push(voyage);
-        }
-        let credentials = {user_id: this.user_id, is_contact_hidden: is_contact_hidden, hidden_contact_details: hidden_contact_details}
+    public fetch_update_location_wise_settings() {
+        let credentials = {user_id: this.user_id}
         this.auth.fetch_update_location_wise_settings(credentials).subscribe(data => {
-            let is_contact_hidden=data.is_contact_hidden;
-            let contacts=data.contacts;
-            if (data.success=='1') {
-                this.myForm.controls['is_contact_hidden'].setValue(is_contact_hidden);
-                this.lc.contacts=contacts;
-                this.viewCtrl.dismiss();
+            let is_contact_hidden = data.is_contact_hidden;
+            let contacts = data.contacts;
+            if (data.success == '1') {
+                this.myForm.controls['is_contact_hidden'].setValue('1' == is_contact_hidden ? true : false);
+                let contacts = data.contacts;
+
             } else {
 
             }
@@ -120,5 +109,34 @@ export class ReportPage implements OnInit {
             ]
         });
         alert.present();
+    }
+    public closeModal() {
+        this.viewCtrl.dismiss();
+    }
+    public findContacts(value: any) {
+        this.contacts = [{phoneNumber: "0721", displayName: "072x Bacon"},
+        {phoneNumber: "0722", displayName: "Black Olives"},
+        {phoneNumber: "0723", displayName: "Extra Cheese"},
+        {phoneNumber: "0724", displayName: "Green Peppers"},
+        {phoneNumber: "mushrooms", displayName: "Mushrooms"},
+        {phoneNumber: "onions", displayName: "Onions"},
+        {phoneNumber: "pepperoni", displayName: "Pepperoni"},
+        {phoneNumber: "pineapple", displayName: "Pineapple"},
+        {phoneNumber: "sausage", displayName: "Sausage"},
+        {phoneNumber: "Spinach", displayName: "Spinach"}];
+        try {
+            Contacts.find(['displayName', 'phoneNumbers']).then((contacts) => {
+                this.contactsfound = contacts;
+                for (let item of this.contactsfound) {
+                    if (item.phoneNumbers != null) {
+                        this.contacts.push({phoneNumber: JSON.stringify(item.phoneNumbers[0].value), displayName: item.displayName});
+                    }
+                }
+            }, (err) => {
+                //alert("Error:" + err);
+            });
+        } catch (e) {
+            alert("Error:" + e);
+        }
     }
 }

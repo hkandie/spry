@@ -7,6 +7,8 @@ import {SearchPage} from '../pages/search/search';
 import {ChatPage} from '../pages/chat/chat';
 import {AccountPage} from '../pages/account/account';
 import {Profile} from '../pages/account/profile';
+import {LocationPage} from '../pages/account/location';
+import {LocationContactPage} from '../pages/account/location.contacts';
 import {TabsPage} from '../pages/tabs/tabs';
 import {LoginPage} from '../pages/login/login';
 import {AuthService} from '../providers/auth-service';
@@ -18,7 +20,9 @@ import {Storage} from '@ionic/storage';
 
 @NgModule({
     declarations: [
-        MyApp, TabsPage,Profile, ListPage, SearchPage, HomePage, ChatPage, AccountPage, LoginPage, RegisterPage, MarkPage
+        MyApp, TabsPage,Profile, 
+        ListPage, SearchPage, HomePage, ChatPage, AccountPage, LoginPage, RegisterPage, MarkPage,
+        LocationPage, LocationContactPage
     ],
     imports: [
         IonicModule.forRoot(MyApp, {
@@ -28,6 +32,7 @@ import {Storage} from '@ionic/storage';
     bootstrap: [IonicApp],
     entryComponents: [
         MyApp, TabsPage,Profile, ListPage, SearchPage, HomePage, ChatPage, AccountPage, LoginPage, RegisterPage, MarkPage,
+        LocationPage, LocationContactPage
 
     ],
     providers: [

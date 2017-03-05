@@ -20,25 +20,24 @@
     </ion-card>
     <ion-card>
         <ion-list>
-            <button ion-item>
+            <a ion-item (click)="editLocationWise()">
                 <ion-icon name="pin" item-left></ion-icon>
                 Location wise
-                <ion-icon name="arrow-forward" item-right></ion-icon>
-            </button>
+                
+            </a>
         </ion-list>
         <ion-list>
-            <button ion-item>
+            <a ion-item (click)="editHiddenContacts()">
                 <ion-icon name="contacts" item-left></ion-icon>
                 Hide Contacts
-                <ion-icon name="arrow-forward" item-right></ion-icon>
-            </button>
+            </a>
         </ion-list>
         <ion-list>
-            <button ion-item>
+            <a ion-item (click)="editHiddenContacts()">
                 <ion-icon name="information-circle" item-left></ion-icon>
                 Privacy Policy
                 <ion-icon name="arrow-forward" item-right></ion-icon>
-            </button>
+            </a>
         </ion-list>
 
     </ion-card>

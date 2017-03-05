@@ -4,23 +4,15 @@ import {NavController} from 'ionic-angular';
 import {AuthService} from '../../providers/auth-service';
 
 @Component({
-    selector: 'voyage-detail',
-    templateUrl: 'voyage.detail.html'
+    selector: 'contact-detail',
+    templateUrl: 'location-contacts.html'
 })
-export class LocationContact implements OnInit {
+export class LocationContactPage{
     contacts: Array<string>;
     @Input('group')
     public locationContactForm: FormGroup;
     constructor(public navCtrl: NavController,  public auth: AuthService) {
         
-    }
-    ngOnInit() {
-        
-    }
-
-
-    public findAll() {
-
     }
 
 }

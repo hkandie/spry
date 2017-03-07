@@ -1,0 +1,39 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+            Location
+        </ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="closeModal()" color="primary" >Cancel</button>           
+        </ion-buttons> 
+    </ion-navbar>
+</ion-header>
+<ion-content padding>
+    <form [formGroup]="myForm" novalidate (ngSubmit)="save_secret_contacts(myForm)">
+        <ion-card>
+            <ion-item>
+                <ion-label color="primary">Add secret contacts</ion-label>
+                <ion-select  color="primary" auto-complete placeholder="Search"  formControlName="my_secret_contacts" multiple="true" cancelText="Cancel" okText="Done"  change="save_secret_contacts(myForm)">
+                    <ion-option   *ngFor="let contact of contacts" value="{{contact.phoneNumbers}}">{{contact.phoneNumbers}}</ion-option>
+                </ion-select>
+            </ion-item>
+            <ion-item small><p style="color:#636363;">Add contacts which you don't want to show in common.You can reach people through hidden contacts but people can not see your hidden contacts.</p></ion-item> 
+        </ion-card>
+        <ion-card>
+            <ion-list>
+            <ion-item *ngFor="let a of my_current_secret_contacts">
+               {{a}}
+        </ion-item>
+            </ion-list>
+
+    </ion-card>
+
+    <ion-row>
+        <ion-col class="signup-col">
+            <button ion-button class="submit-btn" type="submit" [disabled]="!myForm.valid">Save</button>
+        </ion-col>
+    </ion-row>
+
+</form>
+
+</ion-content>

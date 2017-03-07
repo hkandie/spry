@@ -13,7 +13,7 @@ import {AuthService} from '../providers/auth-service';
 })
 export class MyApp {
     @ViewChild(Nav) nav: Nav;
-    rootPage = TabsPage;
+    rootPage = MarkPage;
     pages: Array<{title: string, component: any}>;
 
     constructor(public platform: Platform,public auth: AuthService ) {

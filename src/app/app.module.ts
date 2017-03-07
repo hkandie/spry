@@ -1,5 +1,6 @@
 import {NgModule, ErrorHandler} from '@angular/core';
 import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
+import { MultiPickerModule } from 'ion-multi-picker';
 import {MyApp} from './app.component';
 import {HomePage} from '../pages/home/home';
 import {ListPage} from '../pages/list/list';
@@ -8,7 +9,7 @@ import {ChatPage} from '../pages/chat/chat';
 import {AccountPage} from '../pages/account/account';
 import {Profile} from '../pages/account/profile';
 import {LocationPage} from '../pages/account/location';
-import {LocationContactPage} from '../pages/account/location.contacts';
+import {BlockContact} from '../pages/account/block.contacts';
 import {TabsPage} from '../pages/tabs/tabs';
 import {LoginPage} from '../pages/login/login';
 import {AuthService} from '../providers/auth-service';
@@ -22,17 +23,18 @@ import {Storage} from '@ionic/storage';
     declarations: [
         MyApp, TabsPage,Profile, 
         ListPage, SearchPage, HomePage, ChatPage, AccountPage, LoginPage, RegisterPage, MarkPage,
-        LocationPage, LocationContactPage
+        LocationPage, BlockContact
     ],
     imports: [
         IonicModule.forRoot(MyApp, {
             menuType: 'push',
-        })
+        }),
+        MultiPickerModule 
     ],
     bootstrap: [IonicApp],
     entryComponents: [
         MyApp, TabsPage,Profile, ListPage, SearchPage, HomePage, ChatPage, AccountPage, LoginPage, RegisterPage, MarkPage,
-        LocationPage, LocationContactPage
+        LocationPage, BlockContact
 
     ],
     providers: [

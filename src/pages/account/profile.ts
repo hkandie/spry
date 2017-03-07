@@ -4,6 +4,7 @@ import {Validators, FormGroup, FormBuilder, FormControl} from '@angular/forms';
 import {AuthService} from '../../providers/auth-service';
 import {Camera, File, Transfer, FilePath} from 'ionic-native';
 import {MY_CONFIG_TOKEN, MY_CONFIG, ApplicationConfig} from '../app/app-config';
+import {Storage} from '@ionic/storage';
 declare var cordova: any;
 @Component({
     selector: 'page-add',
@@ -23,7 +24,7 @@ export class Profile {
     password = new FormControl('', [Validators.required]);
     user_id: string;
     username: string;
-    constructor(public actionSheetCtrl: ActionSheetController, public toastCtrl: ToastController, public platform: Platform, public loadingCtrl: LoadingController, private alertCtrl: AlertController, private _fb: FormBuilder, public auth: AuthService, public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams) {}
+    constructor(public storage: Storage, public actionSheetCtrl: ActionSheetController, public toastCtrl: ToastController, public platform: Platform, public loadingCtrl: LoadingController, private alertCtrl: AlertController, private _fb: FormBuilder, public auth: AuthService, public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams) {}
     ngOnInit(): void {
         this.registerForm = this._fb.group({
             username: ['', [Validators.required, Validators.minLength(6)]],
@@ -150,7 +151,9 @@ export class Profile {
             quality: 100,
             sourceType: sourceType,
             saveToPhotoAlbum: false,
-            correctOrientation: true
+            correctOrientation: true,
+            targetWidth: 100,
+            targetHeight: 100
         };
 
         // Get the data of an image
@@ -175,12 +178,15 @@ export class Profile {
     private createFileName() {
         var d = new Date(),
             n = d.getTime(),
-            newFileName = n + ".jpg";
+            newFileName = "SPRY" + n + ".jpg";
         return newFileName;
     }
 
     // Copy the image to a local folder
     private copyFileToLocalDir(namePath, currentName, newFileName) {
+        console.log(namePath);
+        console.log(currentName);
+        console.log(cordova.file.dataDirectory);
         File.copyFile(namePath, currentName, cordova.file.dataDirectory, newFileName).then(success => {
             this.lastImage = newFileName;
         }, error => {
@@ -215,6 +221,7 @@ export class Profile {
         // File name only
         var filename = this.lastImage;
 
+
         var options = {
             fileKey: "file",
             fileName: filename,
@@ -232,6 +239,7 @@ export class Profile {
 
         // Use the FileTransfer to upload the image
         fileTransfer.upload(targetPath, url, options).then(data => {
+            this.storage.set('profilePic', cordova.file.dataDirectory + filename);
             this.loading.dismissAll()
             this.presentToast('Image succesful uploaded.');
         }, err => {

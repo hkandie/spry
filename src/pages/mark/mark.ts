@@ -135,7 +135,7 @@ export class MarkPage implements OnInit {
                 this.contactsfound = contacts;
                 for (let item of this.contactsfound) {
                     if (item.phoneNumbers != null) {
-                        this.contacts.push({phoneNumber: JSON.stringify(item.phoneNumbers[0].value), displayName: item.displayName});
+                        this.contacts.push({phoneNumbers: JSON.stringify(item.phoneNumbers[0].value)});
                     }
                 }
             }, (err) => {

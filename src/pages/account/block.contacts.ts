@@ -8,63 +8,61 @@ import {Content} from 'ionic-angular';
 import {AuthService} from '../../providers/auth-service';
 import {Contacts} from 'ionic-native';
 @Component({
-    selector: 'page-location',
-    templateUrl: 'location.html'
+    selector: 'page-block-contacts',
+    templateUrl: 'block.contacts.html'
 })
-export class LocationPage implements OnInit {
+export class BlockContact implements OnInit {
     public myForm: FormGroup;
     @ViewChild(Content) content: Content;
     user_id: string;
     createSuccess = false;
     contacts: any;
     contactsfound: any;
-    hidden_contacts:any;
+    my_secret_contacts:any;
     constructor(public viewCtrl: ViewController, private events: Events, private toastCtrl: ToastController, public navCtrl: NavController, public alertCtrl: AlertController, public storage: Storage, private platform: Platform, private auth: AuthService, private _fb: FormBuilder) {
         this.platform.ready().then(() => {
             this.auth.getUserInfo().subscribe(succ => {
                 let info = succ;
                 this.user_id = info.user_id;
                 this.findContacts('');
-                this.fetch_update_location_wise_settings();
+                this.fetch_secret_contacts();
             });
         });
 
     }
     ngOnInit(): void {
         this.myForm = this._fb.group({
-            is_contact_hidden: ['false',],
-            hide_me_from_contacts: ['',]
+            my_secret_contacts: ['',]
         });
 
 
     }
 
-    public init_hidden_contact_details() {
+    public init_secret_contacts() {
         // initialize our address
         return this._fb.group({
             contact: [''],
 
         });
     }
-    add_hidden_contact_details() {
+    add_secret_contacts() {
         // add address to the list
-        const control = <FormArray> this.myForm.controls['hidden_contact_details'];
-        control.push(this.init_hidden_contact_details());
+        const control = <FormArray> this.myForm.controls['secret_contacts'];
+        control.push(this.init_secret_contacts());
     }
 
-    remove_hidden_contact_details(i: number) {
-        const control = <FormArray> this.myForm.controls['hidden_contact_details'];
+    remove_secret_contacts(i: number) {
+        const control = <FormArray> this.myForm.controls['secret_contacts'];
         control.removeAt(i);
     }
 
-    public save_update_location_wise_settings(model) {
-        var hide_me_from_contacts = (this.myForm.controls['hide_me_from_contacts'].value);
-        var is_contact_hidden = (this.myForm.controls['is_contact_hidden'].value);
-        let credentials = {user_id: this.user_id, is_contact_hidden: is_contact_hidden, hide_me_from_contacts: hide_me_from_contacts}
-        this.auth.save_update_location_wise_settings(credentials).subscribe(success => {
+    public save_secret_contacts(model) {
+        var secret_contacts = (this.myForm.controls['my_secret_contacts'].value);
+        let credentials = {user_id: this.user_id, secret_contacts: secret_contacts}
+        this.auth.save_secret_contacts(credentials).subscribe(success => {
             if (success) {
                 this.createSuccess = true;
-                this.showPopup("Success", "Location wise settings updated.");
+                this.showPopup("Success", "Hidden contacts updated.");
                 this.viewCtrl.dismiss();
             } else {
 
@@ -76,19 +74,11 @@ export class LocationPage implements OnInit {
 
 
     }
-    public fetch_update_location_wise_settings() {
+    public fetch_secret_contacts() {
         let credentials = {user_id: this.user_id}
-        this.auth.fetch_update_location_wise_settings(credentials).subscribe(data => {
-            let is_contact_hidden = data.is_contact_hidden;
-            this.hidden_contacts = data.contacts;
-            console.log(this.hidden_contacts);
-            if (data.success == '1') {
-                this.myForm.controls['is_contact_hidden'].setValue('1' == is_contact_hidden ? true : false);
-                let contacts = data.contacts;
-
-            } else {
-
-            }
+        this.auth.fetch_secret_contacts(credentials).subscribe(data => {
+            this.my_secret_contacts = data.contacts;
+            
         },
             error => {
                 this.showPopup("Error", error);

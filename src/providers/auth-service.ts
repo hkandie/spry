@@ -65,6 +65,8 @@ export class AuthService {
                                 records.token, records.mobile, records.title);
                             this.fetch_avatar(records.user_id);
                             this.storage.set('currentUser', this.currentUser);
+                            this.storage.set('profilePic', "img/profile2.jpg");
+                            
 
                         }
                         observer.next(access);
@@ -322,7 +324,6 @@ export class AuthService {
             this.loadingPopup = this.loadingCtrl.create({content: 'Please wait...'});
             var bodyString = JSON.stringify(credentials);
             console.log(bodyString);
-
             let headers = new Headers({'Content-Type': 'application/json'}); // ... Set content type to JSON
             let options = new RequestOptions({headers: headers}); // Create a request option
             this.loadingPopup.present();
@@ -387,6 +388,20 @@ export class AuthService {
     public getUserInfo(): any {
         return Observable.create(observer => {
             this.storage.get('currentUser').then((data) => {
+                if (data != null) {
+                    observer.next(data);
+                } else {
+                    observer.next(null);
+                }
+                observer.complete();
+            });
+
+        });
+    }
+    public getProfilePicInfo(): any {
+        return Observable.create(observer => {
+            this.storage.get('profilePic').then((data) => {
+                console.log("profilePic"+JSON.stringify(data));
                 if (data != null) {
                     observer.next(data);
                 } else {

@@ -11,7 +11,7 @@
     <ion-card>
         <ion-item>
             <ion-avatar item-left>
-                <img src="img/profile2.jpg">
+                <img src="{{profilePic}}">
             </ion-avatar>
             <h2>{{name}}</h2>
             <p>{{proffession}}</p>            
@@ -22,8 +22,7 @@
         <ion-list>
             <a ion-item (click)="editLocationWise()">
                 <ion-icon name="pin" item-left></ion-icon>
-                Location wise
-                
+                Location wise                
             </a>
         </ion-list>
         <ion-list>

@@ -3,6 +3,7 @@ import {NavController, ModalController} from 'ionic-angular';
 import {AuthService} from '../../providers/auth-service';
 import {Profile} from './profile';
 import {LocationPage} from './location';
+import {BlockContact} from './block.contacts';
 @Component({
     selector: 'page-account',
     templateUrl: 'account.html'
@@ -10,10 +11,11 @@ import {LocationPage} from './location';
 export class AccountPage {
     name: string;
     proffession: string;
+    profilePic: string;
 
     constructor(public navCtrl: NavController,
         public auth: AuthService,
-        public modalCtrl: ModalController,public modalCtrl2: ModalController) {
+        public modalCtrl: ModalController, public modalCtrl2: ModalController) {
 
     }
     ionViewDidLoad() {
@@ -25,6 +27,10 @@ export class AccountPage {
             this.name = info.firstname + ' ' + info.lastname;
             this.proffession = info.title;
         });
+        this.auth.getProfilePicInfo().subscribe(succ => {
+            this.profilePic = succ;
+            console.log(this.profilePic );
+        });
     }
     editProfile() {
         let addWeatherModal = this.modalCtrl.create(Profile);
@@ -35,7 +41,15 @@ export class AccountPage {
         })
     }
     editLocationWise() {
-        let addWeatherModal = this.modalCtrl2.create(LocationPage);
+        let addWeatherModal = this.modalCtrl.create(LocationPage);
+
+        addWeatherModal.present();
+        addWeatherModal.onDidDismiss(data => {
+
+        })
+    }
+    editHiddenContacts() {
+        let addWeatherModal = this.modalCtrl.create(BlockContact);
 
         addWeatherModal.present();
         addWeatherModal.onDidDismiss(data => {

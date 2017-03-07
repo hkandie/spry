@@ -19,6 +19,7 @@ import {MY_CONFIG_TOKEN, MY_CONFIG, ApplicationConfig} from './app-config';
 import {MarkPage} from '../pages/mark/mark';
 import {PostConfirm} from '../pages/mark/post.confirm';
 import {Storage} from '@ionic/storage';
+import {IonicGallery} from './ionic-gallery';
 
 @NgModule({
     declarations: [
@@ -41,7 +42,7 @@ import {Storage} from '@ionic/storage';
     providers: [
         {provide: MY_CONFIG_TOKEN, useValue: MY_CONFIG},
         {provide: ErrorHandler, useClass: IonicErrorHandler},
-        AuthService, Storage,
+        AuthService, Storage,IonicGallery,
         PostService]
 })
 export class AppModule {}

@@ -18,8 +18,8 @@ declare var google;
 })
 export class MarkPage implements OnInit {
     @ViewChild('map') mapElement: ElementRef;
-    public myForm: FormGroup; // our form model
     map: any;
+    public myForm: FormGroup; // our form model
     contactsfound: any;
     images: any = [];
     contacts: any;
@@ -32,8 +32,7 @@ export class MarkPage implements OnInit {
             this.loadMap();
             this.auth.getUserInfo().subscribe(succ => {
                 let info = succ;
-                this.user_id = info.user_id;
-                this.username = info.username;
+
             });
         });
     }
@@ -95,7 +94,7 @@ export class MarkPage implements OnInit {
         });
 
 
-        let content = "<h4>Information!</h4>";
+        let content = "<h4></h4>";
 
         this.addInfoWindow(marker, content);
 
@@ -173,19 +172,24 @@ export class MarkPage implements OnInit {
         });
     }
     public save_post(myForm: FormGroup, i: any) {
-        let post_data = {
-            mark_address: this.myForm.controls['mark_address'].value,
-            mark_long: this.myForm.controls['mark_long'].value,
-            mark_lat: this.myForm.controls['mark_lat'].value,
-            mark_contacts: this.myForm.controls['mark_contacts'].value,
-            mark_message: this.myForm.controls['mark_message'].value,
-            mark_as_group: this.myForm.controls['mark_as_group'].value,
-            mark_suprise: this.myForm.controls['mark_suprise'].value,
-            mark_notify: this.myForm.controls['mark_notify'].value,
-            mark_images: this.images
-        };
+
         if (i == 1) {
-            let confirmPage = this.modalCtrl.create(PostConfirm,{post_data:post_data});
+            this.images.push("img/img1.jpg");
+            this.images.push("img/img2.jpg");
+            this.images.push("img/img3.jpg");
+            let post_data = {
+                mark_address: this.myForm.controls['mark_address'].value,
+                mark_long: this.myForm.controls['mark_long'].value,
+                mark_lat: this.myForm.controls['mark_lat'].value,
+                mark_contacts: JSON.stringify(this.myForm.controls['mark_contacts'].value),
+                mark_message: this.myForm.controls['mark_message'].value,
+                mark_as_group: this.myForm.controls['mark_as_group'].value,
+                mark_suprise: this.myForm.controls['mark_suprise'].value,
+                mark_notify: this.myForm.controls['mark_notify'].value,
+                mark_images: this.images
+            };
+
+            let confirmPage = this.modalCtrl.create(PostConfirm, {post_data: post_data});
             confirmPage.present();
             confirmPage.onDidDismiss(data => {
 

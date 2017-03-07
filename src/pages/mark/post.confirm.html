@@ -4,45 +4,57 @@
             Location
         </ion-title>
         <ion-buttons end>
+            <button ion-button (click)="save_post()" color="primary" >Post</button>           
+        </ion-buttons> 
+        <ion-buttons end>
             <button ion-button (click)="closeModal()" color="primary" >Cancel</button>           
         </ion-buttons> 
     </ion-navbar>
 </ion-header>
 <ion-content padding>
-    <form [formGroup]="myForm" novalidate (ngSubmit)="save_update_location_wise_settings(myForm)">
-        <ion-card>
-            <ion-item>
-                <ion-label>Hide from contacts</ion-label>
-                <ion-toggle  formControlName="is_contact_hidden" checked="false"  color="secondary" change="save_update_location_wise_settings(myForm)"></ion-toggle>
-
-            </ion-item>
-            <ion-item small>You will go offline to all of your contacts</ion-item> 
-        </ion-card>
-        <ion-card>
-            <ion-item>
-                <ion-label>Hide me from</ion-label>
-                <ion-select  color="primary" auto-complete placeholder="Search"  formControlName="hide_me_from_contacts" multiple="true" cancelText="Cancel" okText="Done"  change="save_update_location_wise_settings(myForm)">
-                    <ion-option   *ngFor="let contact of contacts" value="{{contact.phoneNumber}}">{{contact.displayName}} - {{contact.phoneNumber}}</ion-option>
-                </ion-select>
-
-            </ion-item>
-            <ion-item small>Go offline for some of the contacts, add them here</ion-item> 
-        </ion-card>
-        <ion-card>
-            <ion-list>
-            <ion-item *ngFor="let a of hidden_contacts">
-               {{a}}
+    <ion-card>
+        <ion-item>
+            <ion-icon name="contact" item-left large></ion-icon>
+            <i> {{mark_contacts}}</i>
         </ion-item>
-            </ion-list>
+        <ion-item-divider></ion-item-divider>
+        <ion-item>
+            <ion-label   color="primary"> As Group</ion-label>
+            <ion-toggle  [(ngModel)]="mark_as_group" checked="false"  color="secondary"></ion-toggle>
+        </ion-item>
+        <ion-item-divider></ion-item-divider>
+        <ion-item>
+            <ion-label   color="primary"> Surprise</ion-label>
+            <ion-toggle   [(ngModel)]="mark_suprise"  checked="false"  color="secondary"></ion-toggle>
+        </ion-item>
+        <ion-item-divider></ion-item-divider>
+        <ion-item>
+            <ion-label   color="primary"> Notify</ion-label>
+            <ion-toggle   [(ngModel)]="mark_notify"  checked="false" item-large color="secondary"></ion-toggle>
+        </ion-item>
+        <ion-item-divider></ion-item-divider>
+        <ion-item text-wrap>
+            {{mark_message}}
+        </ion-item>
+
+        <ion-item-divider></ion-item-divider>
+        <ion-item>
+            <ionic-gallery [items]="mark_images" [options]="options" ></ionic-gallery>
+            <ion-thumbnail item-left class="avatarImage" *ngFor="let file_uri of mark_images">
+                           <img src="{{file_uri}}" style="width: 100%;height: 100%"/>
+            </ion-thumbnail>
+
+        </ion-item>
+        <ion-item-divider></ion-item-divider>
+        <ion-item center>
+            {{mark_address}}
+        </ion-item> 
+        <ion-item-divider></ion-item-divider>
+        <ion-item>
+            <div #map id="map" style="widows: 100%;height: 200px;"></div>  
+        </ion-item>
 
     </ion-card>
 
-    <ion-row>
-        <ion-col class="signup-col">
-            <button ion-button class="submit-btn" type="submit" [disabled]="!myForm.valid">Save</button>
-        </ion-col>
-    </ion-row>
-
-</form>
 
 </ion-content>

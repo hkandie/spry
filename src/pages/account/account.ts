@@ -15,7 +15,7 @@ export class AccountPage {
 
     constructor(public navCtrl: NavController,
         public auth: AuthService,
-        public modalCtrl: ModalController, public modalCtrl2: ModalController) {
+        public modalCtrl: ModalController) {
 
     }
     ionViewDidLoad() {

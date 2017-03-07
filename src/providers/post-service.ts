@@ -1,6 +1,11 @@
-import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
+import {Injectable, Inject} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import {Http, Headers, RequestOptions, Response} from '@angular/http';
+import {AlertController, LoadingController} from 'ionic-angular';
+import {MY_CONFIG_TOKEN, MY_CONFIG, ApplicationConfig} from '../app/app-config';
+import {Storage} from '@ionic/storage';
+declare var navigator: any;
 
 /*
   Generated class for the PostProvider provider.
@@ -10,8 +15,11 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class PostService {
+    public endPoint: string;
+    loadingPopup: any;
+    constructor(public storage: Storage, @Inject(MY_CONFIG_TOKEN) config: ApplicationConfig, private loadingCtrl: LoadingController, public http: Http, public alertCtrl: AlertController, ) {
+        this.endPoint = config.apiEndpoint;
 
-    constructor(public http: Http) {
     }
 
     public fetch_posts() {
@@ -59,6 +67,54 @@ export class PostService {
             }
 
         ];
+    }
+    public post_mark(credentials) {
+        if (credentials.username === null || credentials.password === null) {
+            return Observable.throw("Please insert credentials");
+        } else {
+            return Observable.create(observer => {
+                this.loadingPopup = this.loadingCtrl.create({content: 'Please wait...'});
+                var bodyString = JSON.stringify(credentials);
+                console.log(bodyString);
+                let headers = new Headers({'Content-Type': 'application/json'}); // ... Set content type to JSON
+                let options = new RequestOptions({headers: headers}); // Create a request option
+                this.loadingPopup.present();
+                this.http.post(this.endPoint + 'login', bodyString, options)
+                    .subscribe(data => {
+                        let records = data.json().records;
+                        let access = false;
+                        if (records.is_posted == '1') {
+                            access = true;
+                        }
+                        observer.next(access);
+                        observer.complete();
+                        this.loadingPopup.dismiss();
+                    }, error => {
+                        observer.next(false);
+                        observer.complete();
+                        this.loadingPopup.dismiss();
+                        this.showAlert("Please check", "There is a problem.");
+
+                    });
+
+            });
+        }
+    }
+    public checkNetwork() {
+        let networkState = navigator.connection.type;
+        if (networkState == "Unknown connection" || networkState == "none" || networkState == "No network connection") {
+            console.log("Error:" + networkState);
+            this.showAlert("Please check", "No internet connection.");
+            return;
+        }
+    }
+    public showAlert(title: string, messge: string) {
+        let alert = this.alertCtrl.create({
+            title: title,
+            subTitle: messge,
+            buttons: ['OK']
+        });
+        alert.present();
     }
 
 }

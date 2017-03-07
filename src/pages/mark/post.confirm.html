@@ -1,0 +1,48 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+            Location
+        </ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="closeModal()" color="primary" >Cancel</button>           
+        </ion-buttons> 
+    </ion-navbar>
+</ion-header>
+<ion-content padding>
+    <form [formGroup]="myForm" novalidate (ngSubmit)="save_update_location_wise_settings(myForm)">
+        <ion-card>
+            <ion-item>
+                <ion-label>Hide from contacts</ion-label>
+                <ion-toggle  formControlName="is_contact_hidden" checked="false"  color="secondary" change="save_update_location_wise_settings(myForm)"></ion-toggle>
+
+            </ion-item>
+            <ion-item small>You will go offline to all of your contacts</ion-item> 
+        </ion-card>
+        <ion-card>
+            <ion-item>
+                <ion-label>Hide me from</ion-label>
+                <ion-select  color="primary" auto-complete placeholder="Search"  formControlName="hide_me_from_contacts" multiple="true" cancelText="Cancel" okText="Done"  change="save_update_location_wise_settings(myForm)">
+                    <ion-option   *ngFor="let contact of contacts" value="{{contact.phoneNumber}}">{{contact.displayName}} - {{contact.phoneNumber}}</ion-option>
+                </ion-select>
+
+            </ion-item>
+            <ion-item small>Go offline for some of the contacts, add them here</ion-item> 
+        </ion-card>
+        <ion-card>
+            <ion-list>
+            <ion-item *ngFor="let a of hidden_contacts">
+               {{a}}
+        </ion-item>
+            </ion-list>
+
+    </ion-card>
+
+    <ion-row>
+        <ion-col class="signup-col">
+            <button ion-button class="submit-btn" type="submit" [disabled]="!myForm.valid">Save</button>
+        </ion-col>
+    </ion-row>
+
+</form>
+
+</ion-content>

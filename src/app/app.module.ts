@@ -1,6 +1,6 @@
 import {NgModule, ErrorHandler} from '@angular/core';
 import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
-import { MultiPickerModule } from 'ion-multi-picker';
+import {MultiPickerModule} from 'ion-multi-picker';
 import {MyApp} from './app.component';
 import {HomePage} from '../pages/home/home';
 import {ListPage} from '../pages/list/list';
@@ -17,24 +17,25 @@ import {PostService} from '../providers/post-service';
 import {RegisterPage} from '../pages/register/register';
 import {MY_CONFIG_TOKEN, MY_CONFIG, ApplicationConfig} from './app-config';
 import {MarkPage} from '../pages/mark/mark';
+import {PostConfirm} from '../pages/mark/post.confirm';
 import {Storage} from '@ionic/storage';
 
 @NgModule({
     declarations: [
-        MyApp, TabsPage,Profile, 
+        MyApp, TabsPage, Profile,
         ListPage, SearchPage, HomePage, ChatPage, AccountPage, LoginPage, RegisterPage, MarkPage,
-        LocationPage, BlockContact
+        LocationPage, BlockContact,PostConfirm
     ],
     imports: [
         IonicModule.forRoot(MyApp, {
             menuType: 'push',
         }),
-        MultiPickerModule 
+        MultiPickerModule
     ],
     bootstrap: [IonicApp],
     entryComponents: [
-        MyApp, TabsPage,Profile, ListPage, SearchPage, HomePage, ChatPage, AccountPage, LoginPage, RegisterPage, MarkPage,
-        LocationPage, BlockContact
+        MyApp, TabsPage, Profile, ListPage, SearchPage, HomePage, ChatPage, AccountPage, LoginPage, RegisterPage, MarkPage,
+        LocationPage, BlockContact,PostConfirm
 
     ],
     providers: [
